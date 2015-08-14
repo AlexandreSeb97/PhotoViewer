@@ -1,4 +1,4 @@
-package com.example.photoviewer.photoviewer;
+package com.example.photoviewer.photoviewer.adapters;
 
 import android.graphics.Color;
 import android.widget.ArrayAdapter;
@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.photoviewer.photoviewer.R;
 import com.example.photoviewer.photoviewer.models.InstagramPhoto;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
