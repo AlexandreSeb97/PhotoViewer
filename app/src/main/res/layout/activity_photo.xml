@@ -1,0 +1,62 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.photoviewer.photoviewer.HomeTimeline.TimelineActivity">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/relativeLayout"
+        android:background="#FFCC99">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/UserImage"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="5dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Username"
+            android:id="@+id/tvSelfUsername"
+            android:textSize="18sp"
+            android:textColor="#993300"
+            android:textIsSelectable="false"
+            android:textStyle="bold"
+            android:layout_alignTop="@+id/UserImage"
+            android:layout_toRightOf="@+id/UserImage"
+            android:layout_toEndOf="@+id/UserImage" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Full Name"
+            android:id="@+id/tvSelfFullName"
+            android:textColor="#993300"
+            android:textSize="16sp"
+            android:textStyle="italic"
+            android:layout_below="@+id/tvSelfUsername"
+            android:layout_toRightOf="@+id/UserImage"
+            android:layout_toEndOf="@+id/UserImage" />
+    </RelativeLayout>
+
+    <fragment
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:name="com.example.photoviewer.photoviewer.fragments.PhotosListFragment"
+        android:id="@+id/fragment"
+        android:layout_below="@+id/relativeLayout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        tools:layout="@layout/fragment_photos_list" />
+</RelativeLayout>
