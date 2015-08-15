@@ -54,6 +54,7 @@ public class ExploreActivity extends Activity {
         GridView gvPhotos = (GridView) findViewById(R.id.gvPhotos);
         // Link the adapter to the adapter view (gridview)
         gvPhotos.setAdapter(aPhotos);
+        gvPhotos.setAdapter(aResults);
         setupViews();
         fetchMediaPopular();
     }
@@ -84,6 +85,7 @@ public class ExploreActivity extends Activity {
                         JSONObject photoJSON = photosJSON.getJSONObject(i);
                         //decode the attributes of the JSON into a data model
                         InstagramPhoto photo = new InstagramPhoto();
+                        photo.username = photoJSON.getJSONObject("user").getString("username");
                         photo.imageURL = photoJSON.getJSONObject("images").getJSONObject("standard_resolution").getString("url");
                         // Height
                         photos.add(photo);
