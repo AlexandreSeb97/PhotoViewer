@@ -16,6 +16,7 @@ import com.example.photoviewer.photoviewer.adapters.InstagramMediaAdapter;
 import com.example.photoviewer.photoviewer.adapters.InstagramPhotosAdapter;
 import com.example.photoviewer.photoviewer.adapters.InstagramResultsAdapter;
 import com.example.photoviewer.photoviewer.models.InstagramPhoto;
+import com.example.photoviewer.photoviewer.models.InstagramUser;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -30,8 +31,11 @@ import java.util.ArrayList;
 public class ExploreActivity extends Activity {
     private ArrayList<InstagramPhoto> photos;
     private InstagramMediaAdapter aPhotos;
+    private ArrayList<InstagramUser> results;
+    private InstagramResultsAdapter aResults;
     String ACCESS_TOKEN;
     private GridView gvPhotos;
+    private EditText etQuery;
 
 
     @Override
@@ -40,6 +44,8 @@ public class ExploreActivity extends Activity {
         setContentView(R.layout.activity_explore);
         Bundle extras = getIntent().getExtras();
         ACCESS_TOKEN = extras.getString("ACCESS_TOKEN");
+        results = new ArrayList<>();
+        aResults = new InstagramResultsAdapter(this, results);
         //Send out API request to Popular Photos
         photos = new ArrayList<>();
         // Create adapter linking it to the source
@@ -48,8 +54,14 @@ public class ExploreActivity extends Activity {
         GridView gvPhotos = (GridView) findViewById(R.id.gvPhotos);
         // Link the adapter to the adapter view (gridview)
         gvPhotos.setAdapter(aPhotos);
+        setupViews();
         fetchMediaPopular();
     }
+
+    private void setupViews() {
+        etQuery = (EditText) findViewById(R.id.etQuery);
+        gvPhotos = (GridView) findViewById(R.id.gvPhotos);
+        }
 
     public void fetchMediaPopular() {
         String url = "https://api.instagram.com/v1/media/popular?access_token=" + ACCESS_TOKEN;
@@ -79,16 +91,50 @@ public class ExploreActivity extends Activity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
                 //callback
                 aPhotos.notifyDataSetChanged();
             }
 
             //onFailed (failed)
-
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 //Do something
+            }
+        });
+    }
+
+    //This method will run anytime the "search button" is clicked. This is possible thanks to the onClick attribute in activity_search.xml
+    public void onImageSearch(View v) {
+        //Get the string from the EditText
+        String query = etQuery.getText().toString();
+        //Print the Text on the screen
+        Toast.makeText(this, "Search for: " + query, Toast.LENGTH_SHORT).show();
+        AsyncHttpClient client = new AsyncHttpClient();
+        //http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=android&rsz=8
+        String searchUrl = "https://api.instagram.com/v1/users/search?q=" + query + "&access_token=" + ACCESS_TOKEN;
+        client.get(searchUrl, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.d("DEBUG", response.toString());
+                JSONArray resultsJSON = null;
+                try {
+                    resultsJSON = response.getJSONArray("data");
+                    //iterate array of posts
+                    for (int i = 0; i < resultsJSON.length(); i++) {
+                        //get the JSON object at that positiion
+                        JSONObject resultJSON = resultsJSON.getJSONObject(i);
+                        InstagramUser user = new InstagramUser();
+                        user.username = resultJSON.getString("username");
+                        user.profile_picture = resultJSON.getString("profile_picture");
+                        Toast.makeText(getApplicationContext(), "Found Ya!", Toast.LENGTH_SHORT).show();
+                        aResults.clear(); //clear the existig images in case there is a new search
+                        // When you make to the adapter, it does modify the underliying data auto
+                        aResults.addAll();
+                    }
+                } catch (JSONException e) {
+                    //TODO catch block
+                    e.printStackTrace();
+                }
             }
         });
     }
