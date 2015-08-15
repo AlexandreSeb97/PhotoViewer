@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.photoviewer.photoviewer.adapters.InstagramPhotosAdapter;
 import com.example.photoviewer.photoviewer.models.InstagramPhoto;
 import com.example.photoviewer.photoviewer.models.InstagramUser;
 import com.loopj.android.http.AsyncHttpClient;
@@ -158,6 +159,13 @@ public class TimelineActivity extends Activity {
     public void onProfileView(MenuItem mi){
         // Launch the profile view
         Intent i = new Intent(this, ProfileActivity.class);
+        i.putExtra("ACCESS_TOKEN", ACCESS_TOKEN);
+        startActivity(i);
+    }
+
+    public void onExploreView(MenuItem mi){
+        // Launch the profile view
+        Intent i = new Intent(this, ExploreActivity.class);
         i.putExtra("ACCESS_TOKEN", ACCESS_TOKEN);
         startActivity(i);
     }

@@ -2,6 +2,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.photoviewer.photoviewer.TimelineActivity">
+    <item android:id="@+id/toExplore"
+        android:title="Explore"
+        android:onClick="onExploreView"
+        android:icon="@mipmap/search_icon"
+        android:showAsAction="ifRoom" />
     <item android:id="@+id/toProfile"
         android:title="Profile"
         android:onClick="onProfileView"

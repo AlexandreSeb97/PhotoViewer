@@ -40,6 +40,10 @@
             android:name=".ProfileActivity"
             android:label="@string/title_activity_profile" >
         </activity>
+        <activity
+            android:name=".ExploreActivity"
+            android:label="@string/title_activity_explore" >
+        </activity>
     </application>
 
 </manifest>
