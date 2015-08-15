@@ -127,9 +127,10 @@ public class ExploreActivity extends Activity {
                         user.username = resultJSON.getString("username");
                         user.profile_picture = resultJSON.getString("profile_picture");
                         Toast.makeText(getApplicationContext(), "Found Ya!", Toast.LENGTH_SHORT).show();
+                        photos.clear();
                         aResults.clear(); //clear the existig images in case there is a new search
                         // When you make to the adapter, it does modify the underliying data auto
-                        aResults.addAll();
+                        aResults.add(user);
                     }
                 } catch (JSONException e) {
                     //TODO catch block

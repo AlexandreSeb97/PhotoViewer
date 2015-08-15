@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PhotoViewer</string>
+    <string name="app_name">Photo Viewer</string>
     <string name="title_activity_timeline">Photo Viewer</string>
 
     <string name="hello_world">Hello world!</string>
