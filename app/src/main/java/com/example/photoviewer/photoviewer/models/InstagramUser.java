@@ -1,8 +1,5 @@
 package com.example.photoviewer.photoviewer.models;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 /**
  * Created by alexandre on 8/6/15.
  */
