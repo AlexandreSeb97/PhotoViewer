@@ -9,7 +9,8 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:background="#FFCC99">
+        android:background="#FFCC99"
+        android:id="@+id/relativeLayout2">
 
         <ImageView
             android:layout_width="100dp"
@@ -54,4 +55,12 @@
             android:textColor="#000000"
             android:textSize="18dp" />
     </RelativeLayout>
+
+    <GridView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/gvProfileView"
+        android:layout_below="@+id/relativeLayout2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

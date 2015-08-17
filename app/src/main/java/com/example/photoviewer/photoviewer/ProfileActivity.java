@@ -2,10 +2,10 @@ package com.example.photoviewer.photoviewer;
 
 import android.app.Activity;
 import android.graphics.Color;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,6 +23,7 @@ import org.json.JSONObject;
 
 public class ProfileActivity extends Activity {
     String ACCESS_TOKEN;
+    private GridView gvProfileView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +31,11 @@ public class ProfileActivity extends Activity {
         setContentView(R.layout.activity_profile);
         Bundle extras = getIntent().getExtras();
         ACCESS_TOKEN = extras.getString("ACCESS_TOKEN");
+        gvProfileView = (GridView) findViewById(R.id.gvProfileView);
+
         fetchUserInfo();
     }
+
 
     public void fetchUserInfo() {
         String urlprof = "https://api.instagram.com/v1/users/self/?access_token=" + ACCESS_TOKEN;
