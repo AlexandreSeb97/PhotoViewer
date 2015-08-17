@@ -35,16 +35,9 @@ public class InstagramMediaAdapter extends ArrayAdapter<InstagramPhoto> {
         tvUsername.setText("@" + photo.username);
         // Clear out the last image
         ivImage.setImageResource(0);
-        Transformation transformation = new RoundedTransformationBuilder()
-                .borderColor(Color.BLACK)
-                .borderWidthDp(1)
-                .cornerRadiusDp(50)
-                .oval(false)
-                .build();
         //populate the tile and download image url
         Picasso.with(getContext())
                 .load(photo.imageURL)
-                .transform(transformation)
                 .into(ivImage);
         //return the completed view
         return convertView;

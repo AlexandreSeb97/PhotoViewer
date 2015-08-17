@@ -115,7 +115,7 @@ public class ExploreActivity extends Activity {
         Toast.makeText(this, "Search for: " + query, Toast.LENGTH_SHORT).show();
         AsyncHttpClient client = new AsyncHttpClient();
         //http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=android&rsz=8
-        String searchUrl = "https://api.instagram.com/v1/users/search?q=" + query + "&access_token=" + ACCESS_TOKEN;
+        String searchUrl = "https://api.instagram.com/v1/users/search?q=" + query + "&access_token=" + ACCESS_TOKEN + "&count=15";
         client.get(searchUrl, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -123,10 +123,8 @@ public class ExploreActivity extends Activity {
                 JSONArray resultsJSON = null;
                 try {
                     resultsJSON = response.getJSONArray("data");
-                    int i = 1;
                     //iterate array of posts
-                    if (i < 15) {
-                        i = i + 1;
+                    for (int i = 0; i < resultsJSON.length(); i++) {
                         //get the JSON object at that positiion
                         JSONObject resultJSON = resultsJSON.getJSONObject(i);
                         InstagramUser user = new InstagramUser();
