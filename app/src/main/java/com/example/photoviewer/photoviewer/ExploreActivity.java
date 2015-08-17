@@ -35,6 +35,7 @@ public class ExploreActivity extends Activity {
     private InstagramResultsAdapter aResults;
     String ACCESS_TOKEN;
     private GridView gvPhotos;
+    private GridView gvResults;
     private EditText etQuery;
 
 
@@ -52,16 +53,18 @@ public class ExploreActivity extends Activity {
         aPhotos = new InstagramMediaAdapter(this, photos);
         // find the ListView from the layout
         GridView gvPhotos = (GridView) findViewById(R.id.gvPhotos);
+        GridView gvResults = (GridView) findViewById(R.id.gvResults);
         // Link the adapter to the adapter view (gridview)
         gvPhotos.setAdapter(aPhotos);
-        gvPhotos.setAdapter(aResults);
-        setupViews();
+        gvResults.setAdapter(aResults);
         fetchMediaPopular();
+        setupViews();
     }
 
     private void setupViews() {
         etQuery = (EditText) findViewById(R.id.etQuery);
         gvPhotos = (GridView) findViewById(R.id.gvPhotos);
+        gvResults = (GridView) findViewById(R.id.gvResults);
         }
 
     public void fetchMediaPopular() {
@@ -96,11 +99,10 @@ public class ExploreActivity extends Activity {
                 //callback
                 aPhotos.notifyDataSetChanged();
             }
-
             //onFailed (failed)
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                //Do something
+                fetchMediaPopular();
             }
         });
     }
@@ -121,18 +123,24 @@ public class ExploreActivity extends Activity {
                 JSONArray resultsJSON = null;
                 try {
                     resultsJSON = response.getJSONArray("data");
+                    int i = 1;
                     //iterate array of posts
-                    for (int i = 0; i < resultsJSON.length(); i++) {
+                    if (i < 15) {
+                        i = i + 1;
                         //get the JSON object at that positiion
                         JSONObject resultJSON = resultsJSON.getJSONObject(i);
                         InstagramUser user = new InstagramUser();
                         user.username = resultJSON.getString("username");
                         user.profile_picture = resultJSON.getString("profile_picture");
                         Toast.makeText(getApplicationContext(), "Found Ya!", Toast.LENGTH_SHORT).show();
-                        photos.clear();
-                        aResults.clear(); //clear the existig images in case there is a new search
+                        if (photos != null) {
+                             photos.clear();
+                            aResults.clear();
+                            aResults.add(user);
+                        }
+                        //clear the existig images in case there is a new search
                         // When you make to the adapter, it does modify the underliying data auto
-                        aResults.add(user);
+
                     }
                 } catch (JSONException e) {
                     //TODO catch block
