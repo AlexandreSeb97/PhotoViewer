@@ -57,6 +57,7 @@ public class ExploreActivity extends Activity {
         // Link the adapter to the adapter view (gridview)
         gvPhotos.setAdapter(aPhotos);
         gvResults.setAdapter(aResults);
+
         fetchMediaPopular();
         setupViews();
     }
@@ -110,6 +111,13 @@ public class ExploreActivity extends Activity {
     //This method will run anytime the "search button" is clicked. This is possible thanks to the onClick attribute in activity_search.xml
     public void onImageSearch(View v) {
         //Get the string from the EditText
+        if (photos != null) {
+            photos.clear();
+        }
+        if (aResults != null) {
+            aResults.clear();
+        }
+        // Merci Orlson! :)
         String query = etQuery.getText().toString();
         //Print the Text on the screen
         Toast.makeText(this, "Search for: " + query, Toast.LENGTH_SHORT).show();
@@ -127,18 +135,14 @@ public class ExploreActivity extends Activity {
                     for (int i = 0; i < resultsJSON.length(); i++) {
                         //get the JSON object at that positiion
                         JSONObject resultJSON = resultsJSON.getJSONObject(i);
+//                        Toast.makeText(getApplicationContext(), i, Toast.LENGTH_SHORT).show();
                         InstagramUser user = new InstagramUser();
                         user.username = resultJSON.getString("username");
                         user.profile_picture = resultJSON.getString("profile_picture");
                         Toast.makeText(getApplicationContext(), "Found Ya!", Toast.LENGTH_SHORT).show();
-                        if (photos != null) {
-                             photos.clear();
-                            aResults.clear();
                             aResults.add(user);
-                        }
                         //clear the existig images in case there is a new search
                         // When you make to the adapter, it does modify the underliying data auto
-
                     }
                 } catch (JSONException e) {
                     //TODO catch block
