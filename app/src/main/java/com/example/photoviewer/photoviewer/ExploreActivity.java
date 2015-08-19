@@ -1,7 +1,6 @@
 package com.example.photoviewer.photoviewer;
 
 import android.app.Activity;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -9,11 +8,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.photoviewer.photoviewer.adapters.InstagramMediaAdapter;
-import com.example.photoviewer.photoviewer.adapters.InstagramPhotosAdapter;
 import com.example.photoviewer.photoviewer.adapters.InstagramResultsAdapter;
 import com.example.photoviewer.photoviewer.models.InstagramPhoto;
 import com.example.photoviewer.photoviewer.models.InstagramUser;
@@ -77,32 +74,32 @@ public class ExploreActivity extends Activity {
                 //-Type: { "data" => [set] => "type" } ("image or video")
                 // Iterate each of the photo items and decode the item into a java object
                 JSONArray photosJSON = null;
-                try {
-                    photosJSON = response.getJSONArray("data"); //array of posts
-                    //iterate array of posts
-                    for (int i = 0; i < photosJSON.length(); i++) {
-                        //get the JSON object at that positiion
-                        JSONObject photoJSON = photosJSON.getJSONObject(i);
-                        //decode the attributes of the JSON into a data model
-                        InstagramPhoto photo = new InstagramPhoto();
-                        photo.username = photoJSON.getJSONObject("user").getString("username");
-                        photo.imageURL = photoJSON.getJSONObject("images").getJSONObject("standard_resolution").getString("url");
-                        // Height
-                        photos.add(photo);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                //callback
-                aPhotos.notifyDataSetChanged();
+        try {
+            photosJSON = response.getJSONArray("data"); //array of posts
+            //iterate array of posts
+            for (int i = 0; i < photosJSON.length(); i++) {
+                //get the JSON object at that positiion
+                JSONObject photoJSON = photosJSON.getJSONObject(i);
+                //decode the attributes of the JSON into a data model
+                InstagramPhoto photo = new InstagramPhoto();
+                photo.username = photoJSON.getJSONObject("user").getString("username");
+                photo.imageURL = photoJSON.getJSONObject("images").getJSONObject("standard_resolution").getString("url");
+                // Height
+                photos.add(photo);
             }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        //callback
+        aPhotos.notifyDataSetChanged();
+    }
 
-            //onFailed (failed)
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                //Do something
-            }
-        });
+    //onFailed (failed)
+    @Override
+    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+        //Do something
+    }
+});
     }
 
     //This method will run anytime the "search button" is clicked. This is possible thanks to the onClick attribute in activity_search.xml

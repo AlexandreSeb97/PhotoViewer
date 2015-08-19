@@ -9,6 +9,8 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.photoviewer.photoviewer.adapters.InstagramProfileAdapter;
+import com.example.photoviewer.photoviewer.models.InstagramPhoto;
 import com.example.photoviewer.photoviewer.models.InstagramUser;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -17,13 +19,17 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
 import org.apache.http.Header;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 
 public class ProfileActivity extends Activity {
     String ACCESS_TOKEN;
-    private GridView gvProfileView;
+    private ArrayList<InstagramPhoto> photos;
+    private InstagramProfileAdapter aProfiles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +37,41 @@ public class ProfileActivity extends Activity {
         setContentView(R.layout.activity_profile);
         Bundle extras = getIntent().getExtras();
         ACCESS_TOKEN = extras.getString("ACCESS_TOKEN");
-        gvProfileView = (GridView) findViewById(R.id.gvProfileView);
-
+        photos = new ArrayList<>();
+        aProfiles = new InstagramProfileAdapter(this, photos);
+        GridView gvProfileView = (GridView) findViewById(R.id.gvProfileView);
+        gvProfileView.setAdapter(aProfiles);
         fetchUserInfo();
+        profSetup();
+    }
+    private void profSetup(){
+        String urlprof2 = "https://api.instagram.com/v1/users/self/media/recent/?access_token=" + ACCESS_TOKEN;
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(urlprof2, null, new JsonHttpResponseHandler() {
+
+            //onSuccess (worked)
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                JSONArray profilesJSON = null;
+                try {
+                    profilesJSON = response.getJSONArray("data"); //array of posts
+                    //iterate array of posts
+                    for (int i = 0; i < profilesJSON.length(); i++) {
+                        //get the JSON object at that positiion
+                        JSONObject profileJSON = profilesJSON.getJSONObject(i);
+                        //decode the attributes of the JSON into a data model
+                        InstagramPhoto photo = new InstagramPhoto();
+                        photo.username = profileJSON.getJSONObject("user").getString("username");
+                        photo.imageURL = profileJSON.getJSONObject("images").getJSONObject("standard_resolution").getString("url");
+                        // Height
+                        photos.add(photo);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                aProfiles.notifyDataSetChanged();
+            }
+        });
     }
 
 
@@ -106,3 +144,4 @@ public class ProfileActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 }
+
