@@ -114,6 +114,9 @@ public class    TimelineActivity extends Activity {
                 // Expecting a JSON object
                 //-Type: { "data" => [set] => "type" } ("image or video")
                 // Iterate each of the photo items and decode the item into a java object
+                if (photos != null) {
+                    photos.clear();
+                }
                 JSONArray photosJSON = null;
                 try {
                     photosJSON = response.getJSONArray("data"); //array of posts
@@ -138,7 +141,6 @@ public class    TimelineActivity extends Activity {
                         // Profile Picture
                         photo.profilePicture = photoJSON.getJSONObject("user").getString("profile_picture");
                         //Add decoded objects to the photos Array
-                        photos.clear();
                         photos.add(photo);
                     }
                 } catch (JSONException e) {

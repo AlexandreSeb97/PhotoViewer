@@ -1,12 +1,14 @@
 package com.example.photoviewer.photoviewer;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ListView;
@@ -57,7 +59,6 @@ public class ExploreActivity extends Activity {
         // Link the adapter to the adapter view (gridview)
         gvPhotos.setAdapter(aPhotos);
         gvResults.setAdapter(aResults);
-
         fetchMediaPopular();
         setupViews();
     }
@@ -66,6 +67,23 @@ public class ExploreActivity extends Activity {
         etQuery = (EditText) findViewById(R.id.etQuery);
         gvPhotos = (GridView) findViewById(R.id.gvPhotos);
         gvResults = (GridView) findViewById(R.id.gvResults);
+        gvResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Launch Profile activity
+                //Creating an intent
+                Intent i = new Intent(ExploreActivity.this, ProfileActivity.class);
+                //Get the image result to display
+                InstagramUser user = results.get(position);
+                int user_id = user.id;
+                Toast.makeText(getApplicationContext(), String.valueOf(user_id), Toast.LENGTH_SHORT).show();
+                // Pass user id and access token to the activity
+                i.putExtra("ACCESS_TOKEN", ACCESS_TOKEN);
+                i.putExtra("user_id", user_id);
+                //Launch the new activity
+                startActivity(i);
+            }
+        });
         }
 
     public void fetchMediaPopular() {
@@ -139,7 +157,8 @@ public class ExploreActivity extends Activity {
                         InstagramUser user = new InstagramUser();
                         user.username = resultJSON.getString("username");
                         user.profile_picture = resultJSON.getString("profile_picture");
-                        Toast.makeText(getApplicationContext(), "Found Ya!", Toast.LENGTH_SHORT).show();
+                        user.id = resultJSON.getInt("id");
+                       // Toast.makeText(getApplicationContext(), "Found Ya!", Toast.LENGTH_SHORT).show();
                             aResults.add(user);
                         //clear the existig images in case there is a new search
                         // When you make to the adapter, it does modify the underliying data auto

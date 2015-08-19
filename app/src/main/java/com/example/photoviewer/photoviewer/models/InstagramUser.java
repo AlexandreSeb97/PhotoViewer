@@ -8,6 +8,7 @@ public class InstagramUser {
     public String full_name;
     public String profile_picture;
     public String bio;
+    public int id;
 }
 
 
