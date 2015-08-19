@@ -5,12 +5,11 @@
     <item android:id="@+id/toExplore"
         android:title="Explore"
         android:onClick="onExploreView"
-        android:icon="@mipmap/search_icon"
+        android:icon="@drawable/ic_search_action"
         android:showAsAction="ifRoom" />
     <item android:id="@+id/toProfile"
         android:title="Profile"
+        android:icon="@drawable/ic_profile"
         android:onClick="onProfileView"
         android:showAsAction="ifRoom" />
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
 </menu>

@@ -26,7 +26,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class TimelineActivity extends Activity {
+public class    TimelineActivity extends Activity {
      ///**emergency token**/ public static final String ACCESS_TOKEN = "402526745.3a73893.9c0054ab116f443d9ea0e3820e5f8e2f";
     private ArrayList<InstagramPhoto> photos;
     private InstagramPhotosAdapter aPhotos;
@@ -114,6 +114,9 @@ public class TimelineActivity extends Activity {
                 // Expecting a JSON object
                 //-Type: { "data" => [set] => "type" } ("image or video")
                 // Iterate each of the photo items and decode the item into a java object
+                if (photos != null) {
+                    photos.clear();
+                }
                 JSONArray photosJSON = null;
                 try {
                     photosJSON = response.getJSONArray("data"); //array of posts

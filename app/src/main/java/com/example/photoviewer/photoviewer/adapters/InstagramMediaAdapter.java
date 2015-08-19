@@ -1,15 +1,19 @@
 package com.example.photoviewer.photoviewer.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.photoviewer.photoviewer.R;
 import com.example.photoviewer.photoviewer.models.InstagramPhoto;
+import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import java.util.List;
 
@@ -27,10 +31,14 @@ public class InstagramMediaAdapter extends ArrayAdapter<InstagramPhoto> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_popular, parent, false);
         }
         ImageView ivImage = (ImageView) convertView.findViewById(R.id.ivImage);
+        TextView tvUsername = (TextView) convertView.findViewById(R.id.tvUsername);
+        tvUsername.setText("@" + photo.username);
         // Clear out the last image
         ivImage.setImageResource(0);
         //populate the tile and download image url
-        Picasso.with(getContext()).load(photo.imageURL).into(ivImage);
+        Picasso.with(getContext())
+                .load(photo.imageURL)
+                .into(ivImage);
         //return the completed view
         return convertView;
     }
