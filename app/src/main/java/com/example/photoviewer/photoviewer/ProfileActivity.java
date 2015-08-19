@@ -47,13 +47,49 @@ public class ProfileActivity extends Activity {
         gvProfileView.setAdapter(aProfiles);
         if (USER_ID != 0){
             fetchUserInfoID();
-        }else{
+            profUserSetup();
+        } else {
             fetchUserInfo();
+            profSetup();
         }
-        profSetup();
     }
     private void profSetup(){
+        if (photos != null) {
+            photos.clear();
+        }
         String urlprof2 = "https://api.instagram.com/v1/users/self/media/recent/?access_token=" + ACCESS_TOKEN;
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(urlprof2, null, new JsonHttpResponseHandler() {
+
+            //onSuccess (worked)
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                JSONArray profilesJSON = null;
+                try {
+                    profilesJSON = response.getJSONArray("data"); //array of posts
+                    //iterate array of posts
+                    for (int i = 0; i < profilesJSON.length(); i++) {
+                        //get the JSON object at that positiion
+                        JSONObject profileJSON = profilesJSON.getJSONObject(i);
+                        //decode the attributes of the JSON into a data model
+                        InstagramPhoto photo = new InstagramPhoto();
+                        photo.username = profileJSON.getJSONObject("user").getString("username");
+                        photo.imageURL = profileJSON.getJSONObject("images").getJSONObject("standard_resolution").getString("url");
+                        // Height
+                        photos.add(photo);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                aProfiles.notifyDataSetChanged();
+            }
+        });
+    }
+    private void profUserSetup(){
+        if (photos != null) {
+            photos.clear();
+        }
+        String urlprof2 = "https://api.instagram.com/v1/users/" + USER_ID +"/media/recent/?access_token=" + ACCESS_TOKEN;
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(urlprof2, null, new JsonHttpResponseHandler() {
 
