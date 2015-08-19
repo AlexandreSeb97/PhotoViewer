@@ -1,8 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.photoviewer.photoviewer.ExploreActivity"
-    android:background="#ffdeb185">
+    tools:context="com.example.photoviewer.photoviewer.ExploreActivity">
 
     TextView android:text="@string/hello_world" android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -14,7 +13,8 @@
         android:numColumns="3"
         android:layout_below="@+id/etQuery"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:background="#ffdeb185" />
 
     <GridView
         android:layout_width="wrap_content"
@@ -23,7 +23,8 @@
         android:numColumns="3"
         android:layout_below="@+id/etQuery"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:background="#ffdeb185" />
 
     <EditText
         android:layout_width="wrap_content"
