@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.photoviewer.photoviewer.adapters.InstagramProfileAdapter;
 import com.example.photoviewer.photoviewer.models.InstagramPhoto;
@@ -30,6 +31,8 @@ public class ProfileActivity extends Activity {
     String ACCESS_TOKEN;
     private ArrayList<InstagramPhoto> photos;
     private InstagramProfileAdapter aProfiles;
+    int USER_ID;
+    private GridView gvProfileView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +40,16 @@ public class ProfileActivity extends Activity {
         setContentView(R.layout.activity_profile);
         Bundle extras = getIntent().getExtras();
         ACCESS_TOKEN = extras.getString("ACCESS_TOKEN");
+        USER_ID = extras.getInt("user_id");
         photos = new ArrayList<>();
         aProfiles = new InstagramProfileAdapter(this, photos);
         GridView gvProfileView = (GridView) findViewById(R.id.gvProfileView);
         gvProfileView.setAdapter(aProfiles);
-        fetchUserInfo();
+        if (USER_ID != 0){
+            fetchUserInfoID();
+        }else{
+            fetchUserInfo();
+        }
         profSetup();
     }
     private void profSetup(){
@@ -74,9 +82,56 @@ public class ProfileActivity extends Activity {
         });
     }
 
-
     public void fetchUserInfo() {
         String urlprof = "https://api.instagram.com/v1/users/self/?access_token=" + ACCESS_TOKEN;
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(urlprof, null, new JsonHttpResponseHandler() {
+            //onSuccess (worked)
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                JSONObject userJSON = null;
+                try {
+                    userJSON = response.getJSONObject("data");
+                    InstagramUser user = new InstagramUser();
+                    //decode the attributes of the JSON into a data model
+                    user.username = userJSON.getString("username");
+                    TextView tvUsername = (TextView) findViewById(R.id.tvUsername);
+                    tvUsername.setText("@" + user.username);
+                    user.bio = userJSON.getString("bio");
+                    TextView tvBio = (TextView) findViewById(R.id.tvBio);
+                    tvBio.setText(user.bio);
+                    user.full_name = userJSON.getString("full_name");
+                    TextView tvFullname = (TextView) findViewById(R.id.tvFullName);
+                    tvFullname.setText(user.full_name);
+                    user.profile_picture = userJSON.getString("profile_picture");
+                    ImageView ivProfileImage = (ImageView) findViewById(R.id.ivProfilePicture);
+                    // Rounded image
+                    Transformation transformation = new RoundedTransformationBuilder()
+                            .borderColor(Color.WHITE)
+                            .borderWidthDp(1)
+                            .cornerRadiusDp(50)
+                            .oval(false)
+                            .build();
+                    Picasso.with(getApplicationContext())
+                            .load(user.profile_picture)
+                            .transform(transformation)
+                            .into(ivProfileImage);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            //onFailed (failed)
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                //Do something
+            }
+        });
+    }
+
+    public void fetchUserInfoID() {
+        String urlprof = "https://api.instagram.com/v1/users/" + USER_ID + "/?access_token=" + ACCESS_TOKEN;
+        Toast.makeText(this, urlprof, Toast.LENGTH_SHORT).show();
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(urlprof, null, new JsonHttpResponseHandler() {
             //onSuccess (worked)

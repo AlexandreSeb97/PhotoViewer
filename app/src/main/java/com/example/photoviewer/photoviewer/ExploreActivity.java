@@ -1,11 +1,14 @@
 package com.example.photoviewer.photoviewer;
 
 import android.app.Activity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.Toast;
@@ -32,6 +35,7 @@ public class ExploreActivity extends Activity {
     private InstagramResultsAdapter aResults;
     String ACCESS_TOKEN;
     private GridView gvPhotos;
+    private GridView gvResults;
     private EditText etQuery;
 
 
@@ -49,16 +53,35 @@ public class ExploreActivity extends Activity {
         aPhotos = new InstagramMediaAdapter(this, photos);
         // find the ListView from the layout
         GridView gvPhotos = (GridView) findViewById(R.id.gvPhotos);
+        GridView gvResults = (GridView) findViewById(R.id.gvResults);
         // Link the adapter to the adapter view (gridview)
         gvPhotos.setAdapter(aPhotos);
-        gvPhotos.setAdapter(aResults);
-        setupViews();
+        gvResults.setAdapter(aResults);
         fetchMediaPopular();
+        setupViews();
     }
 
     private void setupViews() {
         etQuery = (EditText) findViewById(R.id.etQuery);
         gvPhotos = (GridView) findViewById(R.id.gvPhotos);
+        gvResults = (GridView) findViewById(R.id.gvResults);
+        gvResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Launch Profile activity
+                //Creating an intent
+                Intent i = new Intent(ExploreActivity.this, ProfileActivity.class);
+                //Get the image result to display
+                InstagramUser user = results.get(position);
+                int user_id = user.id;
+                Toast.makeText(getApplicationContext(), String.valueOf(user_id), Toast.LENGTH_SHORT).show();
+                // Pass user id and access token to the activity
+                i.putExtra("ACCESS_TOKEN", ACCESS_TOKEN);
+                i.putExtra("user_id", user_id);
+                //Launch the new activity
+                startActivity(i);
+            }
+        });
         }
 
     public void fetchMediaPopular() {
@@ -87,6 +110,7 @@ public class ExploreActivity extends Activity {
                 // Height
                 photos.add(photo);
             }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -100,17 +124,25 @@ public class ExploreActivity extends Activity {
         //Do something
     }
 });
+
     }
 
     //This method will run anytime the "search button" is clicked. This is possible thanks to the onClick attribute in activity_search.xml
     public void onImageSearch(View v) {
         //Get the string from the EditText
+        if (photos != null) {
+            photos.clear();
+        }
+        if (aResults != null) {
+            aResults.clear();
+        }
+        // Merci Orlson! :)
         String query = etQuery.getText().toString();
         //Print the Text on the screen
         Toast.makeText(this, "Search for: " + query, Toast.LENGTH_SHORT).show();
         AsyncHttpClient client = new AsyncHttpClient();
         //http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=android&rsz=8
-        String searchUrl = "https://api.instagram.com/v1/users/search?q=" + query + "&access_token=" + ACCESS_TOKEN;
+        String searchUrl = "https://api.instagram.com/v1/users/search?q=" + query + "&access_token=" + ACCESS_TOKEN + "&count=15";
         client.get(searchUrl, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -122,14 +154,15 @@ public class ExploreActivity extends Activity {
                     for (int i = 0; i < resultsJSON.length(); i++) {
                         //get the JSON object at that positiion
                         JSONObject resultJSON = resultsJSON.getJSONObject(i);
+//                        Toast.makeText(getApplicationContext(), i, Toast.LENGTH_SHORT).show();
                         InstagramUser user = new InstagramUser();
                         user.username = resultJSON.getString("username");
                         user.profile_picture = resultJSON.getString("profile_picture");
-                        Toast.makeText(getApplicationContext(), "Found Ya!", Toast.LENGTH_SHORT).show();
-                        photos.clear();
-                        aResults.clear(); //clear the existig images in case there is a new search
-                        // When you make to the adapter, it does modify the underliying data auto
+                        user.id = resultJSON.getInt("id");
+                       // Toast.makeText(getApplicationContext(), "Found Ya!", Toast.LENGTH_SHORT).show();
                         aResults.add(user);
+                        //clear the existig images in case there is a new search
+                        // When you make to the adapter, it does modify the underliying data auto
                     }
                 } catch (JSONException e) {
                     //TODO catch block

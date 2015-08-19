@@ -9,6 +9,7 @@ public class InstagramUser {
     public String profile_picture;
     public String bio;
     public String title;
+    public int id;
 }
 
 
