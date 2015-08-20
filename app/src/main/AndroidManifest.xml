@@ -47,7 +47,7 @@
         </activity>
         <activity
             android:name=".TabsActivity"
-            android:label="@string/title_activity_tabs" >
+            android:label="@string/title_activity_timeline" >
         </activity>
     </application>
 
