@@ -1,10 +1,13 @@
 package com.example.photoviewer.photoviewer;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -32,7 +35,6 @@ public class ProfileActivity extends Activity {
     private ArrayList<InstagramPhoto> photos;
     private InstagramProfileAdapter aProfiles;
     int USER_ID;
-    private GridView gvProfileView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,20 @@ public class ProfileActivity extends Activity {
         photos = new ArrayList<>();
         aProfiles = new InstagramProfileAdapter(this, photos);
         GridView gvProfileView = (GridView) findViewById(R.id.gvProfileView);
+        gvProfileView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Launch the full image display activity
+                // Creating an intent
+                Intent i = new Intent(ProfileActivity.this, FullViewActivity.class);
+                // get the image result to display
+                InstagramPhoto photo = photos.get(position);
+                // Pass image result into the intent
+                i.putExtra("url", photo.imageURL);
+                // Launch the  new activity
+                startActivity(i);
+            }
+        });
         gvProfileView.setAdapter(aProfiles);
         if (USER_ID != 0){
             fetchUserInfoID();

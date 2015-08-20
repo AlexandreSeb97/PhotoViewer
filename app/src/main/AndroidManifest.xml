@@ -45,9 +45,18 @@
             android:name=".ExploreActivity"
             android:label="@string/title_activity_explore" >
         </activity>
+
+        <activity
+            android:name=".FullViewActivity"
+            android:label="@string/title_activity_full_view"
+            android:parentActivityName=".ProfileActivity">
+        </activity>
+
         <activity
             android:name=".TabsActivity"
+
             android:label="@string/title_activity_timeline" >
+
         </activity>
     </application>
 
