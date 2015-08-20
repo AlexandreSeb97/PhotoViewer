@@ -31,8 +31,8 @@ public class InstagramMediaAdapter extends ArrayAdapter<InstagramPhoto> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_popular, parent, false);
         }
         ImageView ivImage = (ImageView) convertView.findViewById(R.id.ivImage);
-       // TextView tvUsername = (TextView) convertView.findViewById(R.id.tvUsername);
-       // tvUsername.setText("@" + photo.username);
+        TextView tvUsername = (TextView) convertView.findViewById(R.id.tvUsername);
+        tvUsername.setText("@" + photo.username);
         // Clear out the last image
         ivImage.setImageResource(0);
         //populate the tile and download image url

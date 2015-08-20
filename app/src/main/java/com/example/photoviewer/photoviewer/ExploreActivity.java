@@ -108,7 +108,7 @@ public class ExploreActivity extends Activity {
                         //decode the attributes of the JSON into a data model
                         InstagramPhoto photo = new InstagramPhoto();
                         photo.imageURL = photoJSON.getJSONObject("images").getJSONObject("standard_resolution").getString("url");
-                        //photo.username = photoJSON.getJSONObject("user").getString("username");
+                        photo.username = photoJSON.getJSONObject("user").getString("username");
                         // Height
                         photos.add(photo);
                     }
