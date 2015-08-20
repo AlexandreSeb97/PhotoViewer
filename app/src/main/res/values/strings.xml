@@ -7,6 +7,5 @@
     <string name="title_activity_profile">Profile</string>
     <string name="title_activity_explore">Explore</string>
     <string name="title_activity_full_view">Photo Viewer</string>
-    <string name="title_activity_tabs">TabsActivity</string>
-
+    <string name="title_activity_tabs">Photo Viewer</string>
 </resources>
