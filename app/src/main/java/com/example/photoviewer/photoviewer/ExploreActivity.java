@@ -45,19 +45,19 @@ public class ExploreActivity extends Activity {
         setContentView(R.layout.activity_explore);
         Bundle extras = getIntent().getExtras();
         ACCESS_TOKEN = extras.getString("ACCESS_TOKEN");
-        results = new ArrayList<>();
-        aResults = new InstagramResultsAdapter(this, results);
         //Send out API request to Popular Photos
         photos = new ArrayList<>();
         // Create adapter linking it to the source
         aPhotos = new InstagramMediaAdapter(this, photos);
+        results = new ArrayList<>();
+        aResults = new InstagramResultsAdapter(this, results);
         // find the ListView from the layout
         GridView gvPhotos = (GridView) findViewById(R.id.gvPhotos);
         GridView gvResults = (GridView) findViewById(R.id.gvResults);
         // Link the adapter to the adapter view (gridview)
         gvPhotos.setAdapter(aPhotos);
-        gvResults.setAdapter(aResults);
         fetchMediaPopular();
+        gvResults.setAdapter(aResults);
         setupViews();
     }
 
@@ -84,6 +84,7 @@ public class ExploreActivity extends Activity {
         });
         }
 
+
     public void fetchMediaPopular() {
         String url = "https://api.instagram.com/v1/media/popular?access_token=" + ACCESS_TOKEN;
         //Create the client
@@ -96,27 +97,28 @@ public class ExploreActivity extends Activity {
                 // Expecting a JSON object
                 //-Type: { "data" => [set] => "type" } ("image or video")
                 // Iterate each of the photo items and decode the item into a java object
+                Log.d("DEBUG", response.toString());
                 JSONArray photosJSON = null;
-        try {
-            photosJSON = response.getJSONArray("data"); //array of posts
-            //iterate array of posts
-            for (int i = 0; i < photosJSON.length(); i++) {
-                //get the JSON object at that positiion
-                JSONObject photoJSON = photosJSON.getJSONObject(i);
-                //decode the attributes of the JSON into a data model
-                InstagramPhoto photo = new InstagramPhoto();
-                photo.username = photoJSON.getJSONObject("user").getString("username");
-                photo.imageURL = photoJSON.getJSONObject("images").getJSONObject("standard_resolution").getString("url");
-                // Height
-                photos.add(photo);
-            }
-
+                try {
+                    photosJSON = response.getJSONArray("data"); //array of posts
+                    //iterate array of posts
+                    for (int i = 0; i < photosJSON.length(); i++) {
+                        //get the JSON object at that positiion
+                        JSONObject photoJSON = photosJSON.getJSONObject(i);
+                        //decode the attributes of the JSON into a data model
+                        InstagramPhoto photo = new InstagramPhoto();
+                        photo.imageURL = photoJSON.getJSONObject("images").getJSONObject("standard_resolution").getString("url");
+                        //photo.username = photoJSON.getJSONObject("user").getString("username");
+                        // Height
+                        photos.add(photo);
+                    }
         } catch (JSONException e) {
             e.printStackTrace();
         }
         //callback
         aPhotos.notifyDataSetChanged();
     }
+
 
     //onFailed (failed)
     @Override
@@ -171,6 +173,8 @@ public class ExploreActivity extends Activity {
             }
         });
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
