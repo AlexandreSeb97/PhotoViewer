@@ -6,5 +6,9 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_profile">Profile</string>
     <string name="title_activity_explore">Explore</string>
+<<<<<<< HEAD
     <string name="title_activity_full_view">Photo Viewer</string>
+=======
+    <string name="title_activity_tabs">TabsActivity</string>
+>>>>>>> origin/master
 </resources>

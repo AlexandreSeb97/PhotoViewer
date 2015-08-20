@@ -38,7 +38,7 @@ public class    TimelineActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo);
         Bundle extras = getIntent().getExtras();
-        ACCESS_TOKEN = extras.getString("request_token");
+        ACCESS_TOKEN = extras.getString("ACCESS_TOKEN");
         //Send out API request to Popular Photos
         photos = new ArrayList<>();
         // Create adapter linking it to the source

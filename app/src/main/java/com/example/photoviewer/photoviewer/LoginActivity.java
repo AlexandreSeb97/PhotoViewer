@@ -62,7 +62,7 @@ public class LoginActivity extends Activity {
     }
 
     public void launchTimeline() {
-        Intent i = new Intent(this, TimelineActivity.class);
+        Intent i = new Intent(this, TabsActivity.class);
         Toast.makeText(getApplicationContext(), request_token, Toast.LENGTH_SHORT).show();
         i.putExtra("request_token", request_token);
         startActivity(i);
