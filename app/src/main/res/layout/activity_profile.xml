@@ -9,7 +9,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:background="#FFCC99"
+        android:background="#ffdeb185"
         android:id="@+id/relativeLayout2"
         android:layout_marginBottom="5dp">
 
@@ -25,7 +25,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Text"
+            android:text="\@Account"
             android:id="@+id/tvUsername"
             android:layout_alignTop="@+id/ivProfilePicture"
             android:layout_toRightOf="@+id/ivProfilePicture"
@@ -39,7 +39,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Text"
+            android:text="Name"
             android:id="@+id/tvFullName"
             android:textStyle="italic"
             android:textColor="#000000"
@@ -53,7 +53,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Text"
+            android:text="Bio"
             android:id="@+id/tvBio"
             android:textColor="#000000"
             android:textSize="18dp"
@@ -62,7 +62,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_below="@+id/tvFullName"
-            android:background="#c0ffffff"
+            android:background="#ffdeb185"
             android:layout_marginBottom="5dp" />
     </RelativeLayout>
 
@@ -73,7 +73,7 @@
         android:layout_below="@+id/relativeLayout2"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:numColumns="2"
+        android:numColumns="3"
         android:layout_above="@+id/relativeLayout3" />
 
     <RelativeLayout

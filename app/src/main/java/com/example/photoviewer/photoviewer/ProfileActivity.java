@@ -36,6 +36,7 @@ public class ProfileActivity extends Activity {
     private InstagramProfileAdapter aProfiles;
     int USER_ID;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +69,7 @@ public class ProfileActivity extends Activity {
             fetchUserInfo();
             profSetup();
         }
+        //setUpInfiniteScrolling();
     }
     private void profSetup(){
         if (photos != null) {
@@ -101,6 +103,7 @@ public class ProfileActivity extends Activity {
             }
         });
     }
+
     private void profUserSetup(){
         if (photos != null) {
             photos.clear();
