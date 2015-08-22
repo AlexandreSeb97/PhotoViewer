@@ -36,7 +36,8 @@
         android:layout_below="@+id/tvCommentCount"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:background="#beefc49d" />
+        android:background="#beefc49d"
+        android:textColor="#FFFFFF" />
 
     <TextView
         android:layout_width="wrap_content"

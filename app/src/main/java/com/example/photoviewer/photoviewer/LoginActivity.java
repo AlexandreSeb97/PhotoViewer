@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 /**
@@ -27,12 +28,15 @@ public class LoginActivity extends Activity {
     public void AuthIG() {
         String url = "https://api.instagram.com/oauth/authorize/?client_id=29ee23ba2c8441fa821455660f3c94a3&redirect_uri=http://codepath.com&response_type=token";
         WebView webView = (WebView) findViewById(R.id.webView);
+        ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
         webView.setVisibility(View.VISIBLE);
         webView.setVerticalScrollBarEnabled(false);
         webView.setHorizontalScrollBarEnabled(false);
         webView.setWebViewClient(new AuthWebViewClient());
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl(url);
+        //progressBar.setVisibility(View.INVISIBLE);
     }
 
     public void goToSo (View view) {
@@ -49,8 +53,11 @@ public class LoginActivity extends Activity {
         //@Override
         public boolean shouldOverrideUrlLoading(WebView view, String url)
         {
+            ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
+            progressBar.setVisibility(View.INVISIBLE);
             if (url.startsWith("http://codepath.com"))
             {
+
                 Toast.makeText(getApplicationContext(), url, Toast.LENGTH_LONG).show();
                 String parts[] = url.split("=");
                 request_token = parts[1];  //This is your request token.
