@@ -8,9 +8,8 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginLeft">20dp</item>
-        <item name="android:layout_marginBottom">4dp</item>
-        <item name="android:textSize">30sp</item>
-        <item name="android:drawableLeft">@mipmap/heart</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:drawableLeft">@drawable/ic_heart</item>
         <item name="android:textColor">#beefc49d</item>
     </style>
     <style name="Comments">
@@ -18,8 +17,8 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginLeft">20dp</item>
         <item name="android:layout_marginBottom">4dp</item>
-        <item name="android:textSize">20sp</item>
-        <item name="android:drawableLeft">@mipmap/bubble</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:drawableLeft">@drawable/ic_bubble</item>
         <item name="android:textColor">#beefc49d</item>
     </style>
 </resources>

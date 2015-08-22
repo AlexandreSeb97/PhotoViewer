@@ -27,6 +27,7 @@ public class LoginActivity extends Activity {
     public void AuthIG() {
         String url = "https://api.instagram.com/oauth/authorize/?client_id=29ee23ba2c8441fa821455660f3c94a3&redirect_uri=http://codepath.com&response_type=token";
         WebView webView = (WebView) findViewById(R.id.webView);
+        webView.setVisibility(View.VISIBLE);
         webView.setVerticalScrollBarEnabled(false);
         webView.setHorizontalScrollBarEnabled(false);
         webView.setWebViewClient(new AuthWebViewClient());

@@ -51,7 +51,6 @@ public class    TimelineActivity extends Activity {
         fetchHomeTimeline();
         fetchUserInfo();
     }
-
     public void fetchUserInfo() {
         String urlprof = "https://api.instagram.com/v1/users/self/?access_token=" + ACCESS_TOKEN;
         AsyncHttpClient client = new AsyncHttpClient();
