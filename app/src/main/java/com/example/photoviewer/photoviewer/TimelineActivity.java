@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -26,12 +27,14 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class    TimelineActivity extends Activity {
+public class TimelineActivity extends Activity {
      ///**emergency token**/ public static final String ACCESS_TOKEN = "402526745.3a73893.9c0054ab116f443d9ea0e3820e5f8e2f";
     private ArrayList<InstagramPhoto> photos;
     private InstagramPhotosAdapter aPhotos;
     InstagramUser user;
     String ACCESS_TOKEN;
+    private SwipeRefreshLayout swipeContainer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +53,25 @@ public class    TimelineActivity extends Activity {
         // fetch the popular photos
         fetchHomeTimeline();
         fetchUserInfo();
+        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here.
+                // Make sure you call swipeContainer.setRefreshing(false)
+                // once the network request has completed successfully.
+                fetchHomeTimeline();
+            }
+        });
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
     }
+
     public void fetchUserInfo() {
         String urlprof = "https://api.instagram.com/v1/users/self/?access_token=" + ACCESS_TOKEN;
         AsyncHttpClient client = new AsyncHttpClient();
@@ -102,13 +123,15 @@ public class    TimelineActivity extends Activity {
         -Self Feed : https://api.instagram.com/v1/users/self/feed?access_token=ACCESS-TOKEN
         -Recent Comment :
 */
+        if (photos != null) {
+            photos.clear();
+        }
         String url = "https://api.instagram.com/v1/users/self/feed?access_token=" + ACCESS_TOKEN;
         //Create the client
         AsyncHttpClient client = new AsyncHttpClient();
         //  Trigger the GET request :D
         client.get(url, null, new JsonHttpResponseHandler() {
             //onSucces (worked)
-
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // Expecting a JSON object
@@ -142,17 +165,15 @@ public class    TimelineActivity extends Activity {
                         photo.profilePicture = photoJSON.getJSONObject("user").getString("profile_picture");
                         //Add decoded objects to the photos Array
                         photos.add(photo);
+                        swipeContainer.setRefreshing(false);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
                 //callback
                 aPhotos.notifyDataSetChanged();
             }
-
             //onFailed (failed)
-
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 //Do something
