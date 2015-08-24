@@ -8,6 +8,7 @@ import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 /**
@@ -15,14 +16,110 @@ import android.widget.Toast;
  */
 public class LoginActivity extends Activity {
     public String request_token;
+    RelativeLayout relativeLayout;
+    int images[] = {R.drawable.img, R.drawable.img2, R.drawable.img4, R.drawable.img5,  R.drawable.img6,  R.drawable.img7};
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        relativeLayout = (RelativeLayout) findViewById(R.id.mylayout);
 
+    }
+    @Override
+    protected void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
 
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+
+                while(true) {
+                    try {
+                        Thread.sleep(4000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    LoginActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            relativeLayout.setBackgroundResource(R.drawable.img);
+
+                        }
+                    });
+                    try {
+                        Thread.sleep(4000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    LoginActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            relativeLayout.setBackgroundResource(R.drawable.img2);
+
+                        }
+                    });
+                    try {
+                        Thread.sleep(4000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    LoginActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            relativeLayout.setBackgroundResource(R.drawable.img4);
+
+                        }
+                    });
+                    try {
+                        Thread.sleep(4000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    LoginActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            relativeLayout.setBackgroundResource(R.drawable.img5);
+
+                        }
+                    });
+                    try {
+                        Thread.sleep(4000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    LoginActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            relativeLayout.setBackgroundResource(R.drawable.img6);
+
+                        }
+                    });
+                    try {
+                        Thread.sleep(4000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    LoginActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            relativeLayout.setBackgroundResource(R.drawable.img7);
+
+                        }
+                    });
+
+                }
+            }
+        };
+        new Thread(runnable).start();
     }
 
     public void AuthIG() {
