@@ -43,6 +43,13 @@ public class TabsActivity extends TabActivity {
         return true;
     }
 
+    public void onHaitiView(MenuItem mi){
+        // Launch the profile view
+        Intent i = new Intent(this, HaitiActivity.class);
+        i.putExtra("ACCESS_TOKEN", ACCESS_TOKEN);
+        startActivity(i);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

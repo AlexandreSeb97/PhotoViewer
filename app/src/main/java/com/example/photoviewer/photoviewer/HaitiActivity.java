@@ -1,24 +1,18 @@
 package com.example.photoviewer.photoviewer;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.graphics.Color;
-import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.photoviewer.photoviewer.adapters.InstagramPhotosAdapter;
 import com.example.photoviewer.photoviewer.models.InstagramPhoto;
-import com.example.photoviewer.photoviewer.models.InstagramUser;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.makeramen.roundedimageview.RoundedTransformationBuilder;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
@@ -27,19 +21,17 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class TimelineActivity extends Activity {
-     ///**emergency token**/ public static final String ACCESS_TOKEN = "402526745.3a73893.9c0054ab116f443d9ea0e3820e5f8e2f";
+public class HaitiActivity extends Activity {
     private ArrayList<InstagramPhoto> photos;
     private InstagramPhotosAdapter aPhotos;
-    InstagramUser user;
     String ACCESS_TOKEN;
+    String TAG_CARIFESTA = "carifesta";
     private SwipeRefreshLayout swipeContainer;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_photo);
+        setContentView(R.layout.activity_haiti);
         Bundle extras = getIntent().getExtras();
         ACCESS_TOKEN = extras.getString("ACCESS_TOKEN");
         //Send out API request to Popular Photos
@@ -50,9 +42,6 @@ public class TimelineActivity extends Activity {
         ListView lvPhotos = (ListView) findViewById(R.id.lvPhotos);
         //set the adapter binding it to ListView
         lvPhotos.setAdapter(aPhotos);
-        // fetch the popular photos
-        fetchHomeTimeline();
-        fetchUserInfo();
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -61,7 +50,7 @@ public class TimelineActivity extends Activity {
                 // Your code to refresh the list here.
                 // Make sure you call swipeContainer.setRefreshing(false)
                 // once the network request has completed successfully.
-                fetchHomeTimeline();
+                fetchTagPhotos();
             }
         });
         // Configure the refreshing colors
@@ -69,65 +58,15 @@ public class TimelineActivity extends Activity {
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-
+        fetchTagPhotos();
     }
 
-    public void fetchUserInfo() {
-        String urlprof = "https://api.instagram.com/v1/users/self/?access_token=" + ACCESS_TOKEN;
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get(urlprof, null, new JsonHttpResponseHandler() {
-            //onSuccess (worked)
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                JSONObject userJSON = null;
-                try {
-                    userJSON = response.getJSONObject("data");
-                    InstagramUser user = new InstagramUser();
-                    //decode the attributes of the JSON into a data model
-                    user.username = userJSON.getString("username");
-                    TextView tvUsername = (TextView) findViewById(R.id.tvSelfUsername);
-                    tvUsername.setText("@" + user.username);
-                    user.full_name = userJSON.getString("full_name");
-                    TextView tvFullname = (TextView) findViewById(R.id.tvSelfFullName);
-                    tvFullname.setText(user.full_name);
-                    user.profile_picture = userJSON.getString("profile_picture");
-                    ImageView ivProfileImage = (ImageView) findViewById(R.id.UserImage);
-                    // Rounded image
-                    Transformation transformation = new RoundedTransformationBuilder()
-                            .borderColor(Color.WHITE)
-                            .borderWidthDp(1)
-                            .cornerRadiusDp(50)
-                            .oval(false)
-                            .build();
-                    Picasso.with(getApplicationContext())
-                            .load(user.profile_picture)
-                            .transform(transformation)
-                            .into(ivProfileImage);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-            //onFailed (failed)
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                //Do something
-            }
-        });
-    }
-
-    //Trigger the API requesthttps://api.instagram.com/v1/users/self/feed?access_token=ACCESS-TOKEN
-    public void fetchHomeTimeline() {
-        /*
-        CLient ID: 3a738930c86844a8b505115a3c2427c0
-        -Popular Media: https://api.instagram.com/v1/media/popular?access_token=ACCESS-TOKEN
-        -Self Feed : https://api.instagram.com/v1/users/self/feed?access_token=ACCESS-TOKEN
-        -Recent Comment :
-*/
+    public void fetchTagPhotos() {
         if (photos != null) {
             photos.clear();
         }
-        String url = "https://api.instagram.com/v1/users/self/feed?access_token=" + ACCESS_TOKEN;
         //Create the client
+        String url = "https://api.instagram.com/v1/tags/" + TAG_CARIFESTA + "/media/recent?access_token=" + ACCESS_TOKEN;
         AsyncHttpClient client = new AsyncHttpClient();
         //  Trigger the GET request :D
         client.get(url, null, new JsonHttpResponseHandler() {
@@ -171,6 +110,7 @@ public class TimelineActivity extends Activity {
                 //callback
                 aPhotos.notifyDataSetChanged();
             }
+
             //onFailed (failed)
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
@@ -178,24 +118,11 @@ public class TimelineActivity extends Activity {
             }
         });
     }
-    public void onProfileView(MenuItem mi){
-        // Launch the profile view
-        Intent i = new Intent(this, ProfileActivity.class);
-        i.putExtra("ACCESS_TOKEN", ACCESS_TOKEN);
-        startActivity(i);
-    }
-
-    public void onExploreView(MenuItem mi){
-        // Launch the profile view
-        Intent i = new Intent(this, ExploreActivity.class);
-        i.putExtra("ACCESS_TOKEN", ACCESS_TOKEN);
-        startActivity(i);
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_timeline, menu);
+        getMenuInflater().inflate(R.menu.menu_haiti, menu);
         return true;
     }
 

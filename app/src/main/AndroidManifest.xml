@@ -45,18 +45,22 @@
             android:name=".ExploreActivity"
             android:label="@string/title_activity_explore" >
         </activity>
-
         <activity
             android:name=".FullViewActivity"
             android:label="@string/title_activity_full_view"
-            android:parentActivityName=".ProfileActivity">
+            android:parentActivityName=".ProfileActivity" >
         </activity>
-
         <activity
             android:name=".TabsActivity"
-
             android:label="@string/title_activity_timeline" >
-
+        </activity>
+        <activity
+            android:name=".HaitiActivity"
+            android:label="@string/title_activity_haiti"
+            android:parentActivityName=".TimelineActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.photoviewer.photoviewer.TimelineActivity" />
         </activity>
     </application>
 

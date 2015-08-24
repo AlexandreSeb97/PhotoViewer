@@ -2,5 +2,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.photoviewer.photoviewer.TabsActivity">
-
+    <item android:id="@+id/toProfile"
+        android:title="Profile"
+        android:icon="@drawable/ic_haiti"
+        android:onClick="onHaitiView"
+        android:showAsAction="ifRoom" />
 </menu>
