@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -25,7 +26,8 @@ public class HaitiActivity extends Activity {
     private ArrayList<InstagramPhoto> photos;
     private InstagramPhotosAdapter aPhotos;
     String ACCESS_TOKEN;
-    String TAG_CARIFESTA = "carifesta";
+    String TAG_1 = "carifesta";
+    String TAG_2 = "haititourism";
     private SwipeRefreshLayout swipeContainer;
 
     @Override
@@ -50,7 +52,7 @@ public class HaitiActivity extends Activity {
                 // Your code to refresh the list here.
                 // Make sure you call swipeContainer.setRefreshing(false)
                 // once the network request has completed successfully.
-                fetchTagPhotos();
+                fetchTagPhotos1();
             }
         });
         // Configure the refreshing colors
@@ -58,15 +60,15 @@ public class HaitiActivity extends Activity {
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-        fetchTagPhotos();
+        fetchTagPhotos1();
     }
 
-    public void fetchTagPhotos() {
+    public void fetchTagPhotos1() {
+        //Create the client
         if (photos != null) {
             photos.clear();
         }
-        //Create the client
-        String url = "https://api.instagram.com/v1/tags/" + TAG_CARIFESTA + "/media/recent?access_token=" + ACCESS_TOKEN;
+        String url = "https://api.instagram.com/v1/tags/" + TAG_1 + "/media/recent?access_token=" + ACCESS_TOKEN;
         AsyncHttpClient client = new AsyncHttpClient();
         //  Trigger the GET request :D
         client.get(url, null, new JsonHttpResponseHandler() {
@@ -100,7 +102,120 @@ public class HaitiActivity extends Activity {
                         // Profile Picture
                         photo.profilePicture = photoJSON.getJSONObject("user").getString("profile_picture");
                         //Add decoded objects to the photos Array
-                        photos.clear();
+                        photos.add(photo);
+                        swipeContainer.setRefreshing(false);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                //callback
+                aPhotos.notifyDataSetChanged();
+            }
+
+            //onFailed (failed)
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                //Do something
+            }
+        });
+    }
+
+    public void fetchTagPhotos1(View v) {
+        //Create the client
+        if (photos != null) {
+            photos.clear();
+        }
+        String url = "https://api.instagram.com/v1/tags/" + TAG_1 + "/media/recent?access_token=" + ACCESS_TOKEN;
+        AsyncHttpClient client = new AsyncHttpClient();
+        //  Trigger the GET request :D
+        client.get(url, null, new JsonHttpResponseHandler() {
+            //onSucces (worked)
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                // Expecting a JSON object
+                //-Type: { "data" => [set] => "type" } ("image or video")
+                // Iterate each of the photo items and decode the item into a java object
+                JSONArray photosJSON = null;
+                try {
+                    photosJSON = response.getJSONArray("data"); //array of posts
+                    //iterate array of posts
+                    for (int i = 0; i < photosJSON.length(); i++) {
+                        //get the JSON object at that positiion
+                        JSONObject photoJSON = photosJSON.getJSONObject(i);
+                        //decode the attributes of the JSON into a data model
+                        InstagramPhoto photo = new InstagramPhoto();
+                        //-Author Name: { "data" => [set] => "user" => "username" }
+                        photo.username = photoJSON.getJSONObject("user").getString("username");
+                        //-Caption: { "data" => [set] => "caption" => "text" }
+                        photo.caption = photoJSON.getJSONObject("caption").getString("text");
+                        //-URL: { "data" => [set] => "images" => "standard_resolution" => "url" }
+                        photo.imageURL = photoJSON.getJSONObject("images").getJSONObject("standard_resolution").getString("url");
+                        // Height
+                        photo.imageHeight = photoJSON.getJSONObject("images").getJSONObject("standard_resolution").getInt("height");
+                        // Likes Count
+                        photo.likesCount = photoJSON.getJSONObject("likes").getInt("count");
+                        // Comment Count
+                        photo.commentsCount = photoJSON.getJSONObject("comments").getInt("count");
+                        // Profile Picture
+                        photo.profilePicture = photoJSON.getJSONObject("user").getString("profile_picture");
+                        //Add decoded objects to the photos Array
+                        photos.add(photo);
+                        swipeContainer.setRefreshing(false);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                //callback
+                aPhotos.notifyDataSetChanged();
+            }
+
+            //onFailed (failed)
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                //Do something
+            }
+        });
+    }
+
+    public void fetchTagPhotos2(View v) {
+        //Create the client
+        if (photos != null) {
+            photos.clear();
+        }
+        String url = "https://api.instagram.com/v1/tags/" + TAG_2 + "/media/recent?access_token=" + ACCESS_TOKEN;
+        AsyncHttpClient client = new AsyncHttpClient();
+        //  Trigger the GET request :D
+        client.get(url, null, new JsonHttpResponseHandler() {
+            //onSucces (worked)
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                // Expecting a JSON object
+                //-Type: { "data" => [set] => "type" } ("image or video")
+                // Iterate each of the photo items and decode the item into a java object
+                JSONArray photosJSON = null;
+                try {
+                    photosJSON = response.getJSONArray("data"); //array of posts
+                    //iterate array of posts
+                    for (int i = 0; i < photosJSON.length(); i++) {
+                        //get the JSON object at that positiion
+                        JSONObject photoJSON = photosJSON.getJSONObject(i);
+                        //decode the attributes of the JSON into a data model
+                        InstagramPhoto photo = new InstagramPhoto();
+                        //-Author Name: { "data" => [set] => "user" => "username" }
+                        photo.username = photoJSON.getJSONObject("user").getString("username");
+                        //-Caption: { "data" => [set] => "caption" => "text" }
+                        photo.caption = photoJSON.getJSONObject("caption").getString("text");
+                        //-URL: { "data" => [set] => "images" => "standard_resolution" => "url" }
+                        photo.imageURL = photoJSON.getJSONObject("images").getJSONObject("standard_resolution").getString("url");
+                        // Height
+                        photo.imageHeight = photoJSON.getJSONObject("images").getJSONObject("standard_resolution").getInt("height");
+                        // Likes Count
+                        photo.likesCount = photoJSON.getJSONObject("likes").getInt("count");
+                        // Comment Count
+                        photo.commentsCount = photoJSON.getJSONObject("comments").getInt("count");
+                        // Profile Picture
+                        photo.profilePicture = photoJSON.getJSONObject("user").getString("profile_picture");
+                        //Add decoded objects to the photos Array
                         photos.add(photo);
                         swipeContainer.setRefreshing(false);
                     }

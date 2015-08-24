@@ -207,7 +207,6 @@ public class TimelineActivity extends Activity {
                         // Profile Picture
                         photo.profilePicture = photoJSON.getJSONObject("user").getString("profile_picture");
                         //Add decoded objects to the photos Array
-                        photos.clear();
                         photos.add(photo);
                         swipeContainer.setRefreshing(false);
                     }
