@@ -34,6 +34,8 @@ public class ProfileActivity extends Activity {
     String ACCESS_TOKEN;
     private ArrayList<InstagramPhoto> photos;
     private InstagramProfileAdapter aProfiles;
+    private int resultOffset = 0;
+    GridView gvProfileView;
     int USER_ID;
 
 
@@ -46,7 +48,7 @@ public class ProfileActivity extends Activity {
         USER_ID = extras.getInt("user_id");
         photos = new ArrayList<>();
         aProfiles = new InstagramProfileAdapter(this, photos);
-        GridView gvProfileView = (GridView) findViewById(R.id.gvProfileView);
+        gvProfileView = (GridView) findViewById(R.id.gvProfileView);
         gvProfileView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -69,7 +71,18 @@ public class ProfileActivity extends Activity {
             fetchUserInfo();
             profSetup();
         }
-        //setUpInfiniteScrolling();
+        setUpInfiniteScrolling();
+    }
+    private void setUpInfiniteScrolling(){
+        //Activity activ = new Activity();
+        gvProfileView.setOnScrollListener(new EndlessScrollListener() {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                //Triggered only when new data needs to be appended to the list
+                customLoadMoreDataFromApi(page);
+            }
+        });
+
     }
     private void profSetup(){
         if (photos != null) {
@@ -230,6 +243,20 @@ public class ProfileActivity extends Activity {
                 //Do something
             }
         });
+    }
+    private void customLoadMoreDataFromApi(int offset) {
+        // This method probably sends out a network request and appends new data items to your adapter.
+        // Use the offset value and add it as a parameter to your API request to retrieve paginated data.
+        // Deserialize API response and then construct new objects to append to the adapter
+
+        resultOffset = resultOffset + 8;
+
+        if (resultOffset == 64) {
+            return;
+        }
+        // only load more if not at the end
+        //getData();
+        profSetup();
     }
 
     @Override

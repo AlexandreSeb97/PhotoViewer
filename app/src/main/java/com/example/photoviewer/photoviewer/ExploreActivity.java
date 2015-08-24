@@ -37,6 +37,7 @@ public class ExploreActivity extends Activity {
     private GridView gvPhotos;
     private GridView gvResults;
     private EditText etQuery;
+    private int resultOffset = 0;
 
 
     @Override
@@ -59,6 +60,19 @@ public class ExploreActivity extends Activity {
         fetchMediaPopular();
         gvResults.setAdapter(aResults);
         setupViews();
+        setUpInfiniteScrolling();
+
+    }
+    private void setUpInfiniteScrolling(){
+        //Activity activ = new Activity();
+        gvResults.setOnScrollListener(new EndlessScrollListener() {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                //Triggered only when new data needs to be appended to the list
+                customLoadMoreDataFromApi(page);
+            }
+        });
+
     }
 
     private void setupViews() {
@@ -108,24 +122,24 @@ public class ExploreActivity extends Activity {
                         //decode the attributes of the JSON into a data model
                         InstagramPhoto photo = new InstagramPhoto();
                         photo.imageURL = photoJSON.getJSONObject("images").getJSONObject("standard_resolution").getString("url");
-                                photo.username = photoJSON.getJSONObject("user").getString("username");
+                        photo.username = photoJSON.getJSONObject("user").getString("username");
                         // Height
                         photos.add(photo);
                     }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        //callback
-        aPhotos.notifyDataSetChanged();
-    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                //callback
+                aPhotos.notifyDataSetChanged();
+            }
 
 
-    //onFailed (failed)
-    @Override
-    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-        //Do something
-    }
-});
+            //onFailed (failed)
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                //Do something
+            }
+        });
 
     }
 
@@ -173,6 +187,21 @@ public class ExploreActivity extends Activity {
             }
         });
     }
+    private void customLoadMoreDataFromApi(int offset) {
+        // This method probably sends out a network request and appends new data items to your adapter.
+        // Use the offset value and add it as a parameter to your API request to retrieve paginated data.
+        // Deserialize API response and then construct new objects to append to the adapter
+
+        resultOffset = resultOffset + 8;
+
+        if (resultOffset == 64) {
+            return;
+        }
+        // only load more if not at the end
+        //getData();
+        fetchMediaPopular();
+    }
+
 
 
 
