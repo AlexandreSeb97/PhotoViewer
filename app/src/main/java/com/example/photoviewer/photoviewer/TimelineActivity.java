@@ -63,59 +63,13 @@ public class TimelineActivity extends Activity {
                 // Make sure you call swipeContainer.setRefreshing(false)
                 // once the network request has completed successfully.
                 fetchHomeTimeline();
-                setUpInfiniteScrolling();
             }
         });
-        //setUpInfiniteScrolling();
         // Configure the refreshing colors
         swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-        /*
-        lvPhotos.setOnScrollListener(new EndlessScrollListener() {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount) {
-                // Triggered only when new data needs to be appended to the list
-                // Add whatever code is needed to append new items to your AdapterView
-                customLoadMoreDataFromApi(page);
-                // or customLoadMoreDataFromApi(totalItemsCount);
-            }
-        });*/
-
-
-        // Append more data into the adapter
-        // Append more data into the adapter
-
-
-    //set the adapter binding it to ListView
-
-    }
-    private void setUpInfiniteScrolling(){
-        //Activity activ = new Activity();
-        lvPhotos.setOnScrollListener(new EndlessScrollListener() {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount) {
-                //Triggered only when new data needs to be appended to the list
-                customLoadMoreDataFromApi(page);
-            }
-        });
-
-    }
-
-    private void customLoadMoreDataFromApi(int offset) {
-        // This method probably sends out a network request and appends new data items to your adapter.
-        // Use the offset value and add it as a parameter to your API request to retrieve paginated data.
-        // Deserialize API response and then construct new objects to append to the adapter
-
-        resultOffset = resultOffset + 8;
-
-        if (resultOffset == 64) {
-            return;
-        }
-        // only load more if not at the end
-        //getData();
-        fetchHomeTimeline();
     }
 
     public void fetchUserInfo() {

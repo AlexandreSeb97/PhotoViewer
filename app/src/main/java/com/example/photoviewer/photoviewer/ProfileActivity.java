@@ -71,19 +71,8 @@ public class ProfileActivity extends Activity {
             fetchUserInfo();
             profSetup();
         }
-        setUpInfiniteScrolling();
     }
-    private void setUpInfiniteScrolling(){
-        //Activity activ = new Activity();
-        gvProfileView.setOnScrollListener(new EndlessScrollListener() {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount) {
-                //Triggered only when new data needs to be appended to the list
-                customLoadMoreDataFromApi(page);
-            }
-        });
 
-    }
     private void profSetup(){
         if (photos != null) {
             photos.clear();
