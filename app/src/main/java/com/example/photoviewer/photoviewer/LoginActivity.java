@@ -115,6 +115,19 @@ public class LoginActivity extends Activity {
 
                         }
                     });
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    LoginActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            relativeLayout.setBackgroundResource(R.drawable.img3);
+
+                        }
+                    });
 
                 }
             }
