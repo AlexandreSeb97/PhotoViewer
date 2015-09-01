@@ -26,6 +26,7 @@ import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -160,6 +161,15 @@ public class ProfileActivity extends Activity {
                     user.full_name = userJSON.getString("full_name");
                     TextView tvFullname = (TextView) findViewById(R.id.tvFullName);
                     tvFullname.setText(user.full_name);
+                    user.followers = userJSON.getJSONObject("counts").getInt("followed_by");
+                    TextView tvFollowers = (TextView) findViewById(R.id.tvFollowers);
+                    tvFollowers.setText(String.valueOf(user.followers) + " followers");
+                    user.following = userJSON.getJSONObject("counts").getInt("follows");
+                    TextView tvFollowing = (TextView) findViewById(R.id.tvFollowing);
+                    tvFollowing.setText(String.valueOf(user.following) + " following");
+                    user.media = userJSON.getJSONObject("counts").getInt("media");
+                    TextView tvMedia = (TextView) findViewById(R.id.tvMedia);
+                    tvMedia.setText(String.valueOf(user.media) + " medias");
                     user.profile_picture = userJSON.getString("profile_picture");
                     ImageView ivProfileImage = (ImageView) findViewById(R.id.ivProfilePicture);
                     // Rounded image
@@ -188,7 +198,7 @@ public class ProfileActivity extends Activity {
 
     public void fetchUserInfoID() {
         String urlprof = "https://api.instagram.com/v1/users/" + USER_ID + "/?access_token=" + ACCESS_TOKEN;
-        Toast.makeText(this, urlprof, Toast.LENGTH_SHORT).show();
+       // Toast.makeText(this, urlprof, Toast.LENGTH_SHORT).show();
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(urlprof, null, new JsonHttpResponseHandler() {
             //onSuccess (worked)
@@ -208,6 +218,15 @@ public class ProfileActivity extends Activity {
                     user.full_name = userJSON.getString("full_name");
                     TextView tvFullname = (TextView) findViewById(R.id.tvFullName);
                     tvFullname.setText(user.full_name);
+                    user.followers = userJSON.getJSONObject("counts").getInt("followed_by");
+                    TextView tvFollowers = (TextView) findViewById(R.id.tvFollowers);
+                    tvFollowers.setText(String.valueOf(user.followers) + " followers");
+                    user.following = userJSON.getJSONObject("counts").getInt("follows");
+                    TextView tvFollowing = (TextView) findViewById(R.id.tvFollowing);
+                    tvFollowing.setText(String.valueOf(user.following) + " following");
+                    user.media = userJSON.getJSONObject("counts").getInt("media");
+                    TextView tvMedia = (TextView) findViewById(R.id.tvMedia);
+                    tvMedia.setText(String.valueOf(user.media) + " medias");
                     user.profile_picture = userJSON.getString("profile_picture");
                     ImageView ivProfileImage = (ImageView) findViewById(R.id.ivProfilePicture);
                     // Rounded image

@@ -168,7 +168,7 @@ public class LoginActivity extends Activity {
             if (url.startsWith("http://codepath.com"))
             {
 
-                Toast.makeText(getApplicationContext(), url, Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), url, Toast.LENGTH_LONG).show();
                 String parts[] = url.split("=");
                 request_token = parts[1];  //This is your request token.
                 //InstagramLoginDialog.this.dismiss();
@@ -181,7 +181,7 @@ public class LoginActivity extends Activity {
 
     public void launchTimeline() {
         Intent i = new Intent(this, TabsActivity.class);
-        Toast.makeText(getApplicationContext(), request_token, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), request_token, Toast.LENGTH_SHORT).show();
         i.putExtra("request_token", request_token);
         startActivity(i);
     }

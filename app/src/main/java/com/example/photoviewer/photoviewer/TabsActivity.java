@@ -2,11 +2,13 @@ package com.example.photoviewer.photoviewer;
 
 import android.app.TabActivity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TabHost;
+import android.widget.TabHost.OnTabChangeListener;
 
 public class TabsActivity extends TabActivity {
     String ACCESS_TOKEN;
@@ -16,7 +18,7 @@ public class TabsActivity extends TabActivity {
         setContentView(R.layout.activity_tabs);
         Bundle extras = getIntent().getExtras();
         ACCESS_TOKEN = extras.getString("request_token");
-        TabHost tabHost = (TabHost)findViewById(android.R.id.tabhost);
+        final TabHost tabHost = (TabHost)findViewById(android.R.id.tabhost);
 
         TabHost.TabSpec tab1 = tabHost.newTabSpec("First Tab");
         TabHost.TabSpec tab2 = tabHost.newTabSpec("Second Tab");
@@ -34,6 +36,26 @@ public class TabsActivity extends TabActivity {
         tabHost.addTab(tab1);
         tabHost.addTab(tab2);
         tabHost.addTab(tab3);
+        tabHost.setOnTabChangedListener(new OnTabChangeListener() {
+
+            @Override
+            public void onTabChanged(String arg0) {
+                setTabColor(tabHost);
+            }
+        });
+        setTabColor(tabHost);
+    }
+
+    //Change The Backgournd Color of Tabs
+    public void setTabColor(TabHost tabhost) {
+
+        for(int i=0;i<tabhost.getTabWidget().getChildCount();i++)
+            tabhost.getTabWidget().getChildAt(i).setBackgroundColor(Color.rgb(255,204,153)); //unselected
+
+        if(tabhost.getCurrentTab()==0)
+            tabhost.getTabWidget().getChildAt(tabhost.getCurrentTab()).setBackgroundColor(Color.BLACK); //1st tab selected
+        else
+            tabhost.getTabWidget().getChildAt(tabhost.getCurrentTab()).setBackgroundColor(Color.BLACK); //2nd tab selected
     }
 
     @Override

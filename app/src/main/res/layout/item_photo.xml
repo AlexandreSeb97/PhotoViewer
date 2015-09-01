@@ -32,12 +32,14 @@
         android:text="New Text"
         android:id="@+id/tvCaption"
         android:textStyle="bold"
-        android:textSize="18sp"
+        android:textSize="17sp"
         android:layout_below="@+id/tvCommentCount"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:background="#beefc49d"
-        android:textColor="#FFFFFF" />
+        android:textColor="#FFFFFF"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -49,7 +51,8 @@
         android:layout_below="@+id/ivPhoto"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        style="@style/likesCount"/>
+        style="@style/likesCount"
+        android:layout_alignBottom="@+id/tvCommentCount" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -66,8 +69,12 @@
         android:layout_height="wrap_content"
         android:text="New Text"
         android:id="@+id/tvCommentCount"
-        android:layout_below="@+id/tvLikesCount"
-        style="@style/Comments"/>
+        style="@style/Comments"
+        android:layout_below="@+id/ivPhoto"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="58dp"
+        android:layout_marginEnd="58dp" />
 
     <ImageView
         android:layout_width="40dp"

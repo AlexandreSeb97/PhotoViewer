@@ -63,6 +63,20 @@ public class ExploreActivity extends Activity {
     private void setupViews() {
         etQuery = (EditText) findViewById(R.id.etQuery);
         gvPhotos = (GridView) findViewById(R.id.gvPhotos);
+        gvPhotos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Launch the full image display activity
+                // Creating an intent
+                Intent i = new Intent(ExploreActivity.this, FullViewActivity.class);
+                // get the image result to display
+                InstagramPhoto photo = photos.get(position);
+                // Pass image result into the intent
+                i.putExtra("url", photo.imageURL);
+                // Launch the  new activity
+                startActivity(i);
+            }
+        });
         gvResults = (GridView) findViewById(R.id.gvResults);
         gvResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -73,7 +87,7 @@ public class ExploreActivity extends Activity {
                 //Get the image result to display
                 InstagramUser user = results.get(position);
                 int user_id = user.id;
-                Toast.makeText(getApplicationContext(), String.valueOf(user_id), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), String.valueOf(user_id), Toast.LENGTH_SHORT).show();
                 // Pass user id and access token to the activity
                 i.putExtra("ACCESS_TOKEN", ACCESS_TOKEN);
                 i.putExtra("user_id", user_id);

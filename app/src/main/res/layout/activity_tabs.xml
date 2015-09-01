@@ -19,7 +19,8 @@
                 android:layout_height="wrap_content"
                 android:layout_width="fill_parent"
                 android:layout_gravity="center_horizontal|bottom"
-                android:background="#010101">
+                android:background="#010101"
+                >
 
             </TabWidget>
 

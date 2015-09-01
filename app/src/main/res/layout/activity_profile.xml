@@ -27,14 +27,12 @@
             android:layout_height="wrap_content"
             android:text="\@Account"
             android:id="@+id/tvUsername"
-            android:layout_alignTop="@+id/ivProfilePicture"
-            android:layout_toRightOf="@+id/ivProfilePicture"
             android:textColor="#000000"
             android:textSize="22sp"
             android:textStyle="bold"
-            android:layout_marginBottom="5dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/ivProfilePicture"
+            android:layout_toEndOf="@+id/ivProfilePicture" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -49,21 +47,57 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_marginBottom="5dp" />
-
+        <ScrollView
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/tvFullName"
+            android:layout_toRightOf="@+id/ivProfilePicture"
+            android:layout_toEndOf="@+id/ivProfilePicture"
+            android:layout_alignBottom="@+id/ivProfilePicture"
+            android:background="#d9ffcc99"
+            android:id="@+id/scrollView">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Bio"
             android:id="@+id/tvBio"
             android:textColor="#000000"
-            android:textSize="18dp"
-            android:layout_toRightOf="@+id/ivProfilePicture"
+            android:textSize="18sp"
+            android:background="#d9ffcc99"
+            android:layout_marginBottom="5dp" />
+        </ScrollView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="followers"
+            android:id="@+id/tvFollowers"
+            android:textColor="#000000"
+            android:layout_below="@+id/scrollView"
+            android:layout_toLeftOf="@+id/tvFollowing"
+            android:layout_toStartOf="@+id/tvFollowing" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="following"
+            android:id="@+id/tvFollowing"
+            android:textColor="#000000"
+            android:layout_below="@+id/ivProfilePicture"
+            android:layout_toLeftOf="@+id/tvMedia"
+            android:layout_toStartOf="@+id/tvMedia"
+            android:layout_marginLeft="15dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="media"
+            android:id="@+id/tvMedia"
+            android:textColor="#000000"
+            android:layout_alignTop="@+id/tvFollowing"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_below="@+id/tvFullName"
-            android:background="#ffdeb185"
-            android:layout_marginBottom="5dp" />
+            android:layout_marginLeft="15dp" />
     </RelativeLayout>
 
     <GridView

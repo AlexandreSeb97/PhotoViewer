@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -70,6 +72,23 @@ public class TimelineActivity extends Activity {
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
+        lvPhotos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Launch Profile activity
+                //Creating an intent
+                Intent i = new Intent(TimelineActivity.this, ProfileActivity.class);
+                // Get profile id
+                InstagramPhoto photo = photos.get(position);
+                int user_id = photo.userId;
+                //Toast.makeText(getApplicationContext(), String.valueOf(user_id), Toast.LENGTH_SHORT).show();
+                // Pass user id and access token to the activity
+                i.putExtra("ACCESS_TOKEN", ACCESS_TOKEN);
+                i.putExtra("user_id", user_id);
+                //Launch the new activity
+                startActivity(i);
+            }
+        });
     }
 
     public void fetchUserInfo() {
@@ -160,6 +179,8 @@ public class TimelineActivity extends Activity {
                         photo.commentsCount = photoJSON.getJSONObject("comments").getInt("count");
                         // Profile Picture
                         photo.profilePicture = photoJSON.getJSONObject("user").getString("profile_picture");
+                        // User ID
+                        photo.userId = photoJSON.getJSONObject("user").getInt("id");
                         //Add decoded objects to the photos Array
                         photos.add(photo);
                         swipeContainer.setRefreshing(false);
@@ -190,6 +211,7 @@ public class TimelineActivity extends Activity {
         i.putExtra("ACCESS_TOKEN", ACCESS_TOKEN);
         startActivity(i);
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

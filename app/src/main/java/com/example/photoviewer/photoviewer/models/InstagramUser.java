@@ -10,6 +10,9 @@ public class InstagramUser {
     public String bio;
     public String title;
     public int id;
+    public int followers;
+    public int following;
+    public int media;
 }
 
 
